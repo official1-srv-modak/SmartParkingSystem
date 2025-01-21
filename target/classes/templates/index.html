@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Smart Parking Spot Reservation</title>
+</head>
+<body>
+<h1>Smart Parking Spot Reservation</h1>
+<div th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="spot : ${spots}">
+        <td th:text="${spot.id}"></td>
+        <td th:text="${spot.isReserved ? 'Reserved' : 'Available'}"></td>
+        <td>
+            <form th:action="@{/reserve/{id}(id=${spot.id})}" method="post">
+                <button type="submit" th:if="${!spot.isReserved}">Reserve</button>
+            </form>
+            <form th:action="@{/release/{id}(id=${spot.id})}" method="post">
+                <button type="submit" th:if="${spot.isReserved}">Release</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
